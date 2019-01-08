@@ -1,53 +1,74 @@
-// class Counter extends React.Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       count: 0
-//     }
+class Counter extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      count: 0
+    }
 
-//     this.addOne = this.addOne.bind(this)
-//     this.subOne = this.subOne.bind(this)
-//     this.onReset = this.onReset.bind(this)
-//   }
+    this.addOne = this.addOne.bind(this)
+    this.subOne = this.subOne.bind(this)
+    this.onReset = this.onReset.bind(this)
+  }
 
-//   addOne() {
-//     this.setState(prevState => {
-//       return {
-//         count: prevState.count + 1
-//       }
-//     })
-//   }
+  componentDidMount() {
+    try {
+      console.log('fetching data...')
+      const stringCount = localStorage.getItem('count')
+      const count = parseInt(stringCount)
 
-//   subOne() {
-//     this.setState(prevState => {
-//       return {
-//         count: prevState.count - 1
-//       }
-//     })
-//   }
+      if (!isNaN(count)) {
+        this.setState(() => ({ count }))
+      }
+    } catch (error) {}
+  }
 
-//   onReset() {
-//     this.setState(() => {
-//       return {
-//         count: 0
-//       }
-//     })
-//   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.count !== this.state.count) {
+      console.log('updating data...')
+      const json = JSON.stringify(this.state.count)
 
-//   render() {
-//     const { count } = this.state
-//     return (
-//       <div>
-//         <h1>Count: {count}</h1>
-//         <button onClick={this.addOne}>+1</button>
-//         <button onClick={this.subOne}>-1</button>
-//         <button onClick={this.onReset}>Reset</button>
-//       </div>
-//     )
-//   }
-// }
+      localStorage.setItem('count', json)
+    }
+  }
 
-// ReactDOM.render(<Counter />, document.getElementById('app'))
+  addOne() {
+    this.setState(prevState => {
+      return {
+        count: prevState.count + 1
+      }
+    })
+  }
+
+  subOne() {
+    this.setState(prevState => {
+      return {
+        count: prevState.count - 1
+      }
+    })
+  }
+
+  onReset() {
+    this.setState(() => {
+      return {
+        count: 0
+      }
+    })
+  }
+
+  render() {
+    const { count } = this.state
+    return (
+      <div>
+        <h1>Count: {count}</h1>
+        <button onClick={this.addOne}>+1</button>
+        <button onClick={this.subOne}>-1</button>
+        <button onClick={this.onReset}>Reset</button>
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(<Counter />, document.getElementById('app'))
 
 // class Visibility extends React.Component {
 //   constructor(props) {
