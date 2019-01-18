@@ -5,7 +5,7 @@ const Action = props => {
 
   return (
     <div>
-      <button onClick={onPick} disabled={!hasOptions}>
+      <button className="big-button" onClick={onPick} disabled={!hasOptions}>
         What should I do?
       </button>
     </div>

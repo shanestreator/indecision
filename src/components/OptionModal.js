@@ -9,9 +9,7 @@ const OptionModal = props => (
   >
     <h3>Selected Option</h3>
     {props.selectedOption && <p>{props.selectedOption}</p>}
-    <button onClick={props.onSelectedOption} className="btn btn-success">
-      Okay
-    </button>
+    <button onClick={props.onSelectedOption}>Okay</button>
   </Modal>
 )
 

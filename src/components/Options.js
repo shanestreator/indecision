@@ -8,15 +8,24 @@ const Options = props => {
 
   return (
     <div>
-      <button onClick={onRemoveAll}>Remove All</button>
-      {options.length === 0 && <p>Please add an option to get started!</p>}
-      {options.length > 0 && (
-        <ol>
-          {options.map((option, i) => (
-            <Option key={i + 1} option={option} onRemoveOne={onRemoveOne} />
-          ))}
-        </ol>
+      <div className="widget-header">
+        <h3 className="widget-header__title">Your Options</h3>
+        <button className="button button--link" onClick={onRemoveAll}>
+          Remove All
+        </button>
+      </div>
+      {options.length === 0 && (
+        <p className="widget__message">Please add an option to get started!</p>
       )}
+
+      {options.map((option, index) => (
+        <Option
+          key={option}
+          option={option}
+          count={index + 1}
+          onRemoveOne={onRemoveOne}
+        />
+      ))}
     </div>
   )
 }

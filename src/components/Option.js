@@ -1,17 +1,19 @@
 import React from 'react'
 
 const Option = props => {
-  const { option, onRemoveOne } = props
+  const { option, count, onRemoveOne } = props
   return (
-    <li className="">
-      {option}
+    <div className="option">
+      <p className="option__text">
+        {count}. {option}
+      </p>
       <button
-        className="ml-3 my-2 btn btn-danger btn-sm"
+        className="button button--link"
         onClick={onRemoveOne.bind(this, option)}
       >
         Remove
       </button>
-    </li>
+    </div>
   )
 }
 
