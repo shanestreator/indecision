@@ -3,9 +3,14 @@ import React from 'react'
 const Option = props => {
   const { option, onRemoveOne } = props
   return (
-    <li>
+    <li className="">
       {option}
-      <button onClick={onRemoveOne.bind(this, option)}>Remove</button>
+      <button
+        className="ml-3 my-2 btn btn-danger btn-sm"
+        onClick={onRemoveOne.bind(this, option)}
+      >
+        Remove
+      </button>
     </li>
   )
 }

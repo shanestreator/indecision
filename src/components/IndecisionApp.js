@@ -5,18 +5,50 @@ import AddOption from './AddOption'
 import Options from './Options'
 import Header from './Header'
 import Action from './Action'
+import OptionModal from './OptionModal'
 
 class IndecisionApp extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      options: []
+  state = {
+    options: [],
+    selectedOption: undefined
+  }
+
+  onSelectedOption = () => {
+    this.setState(() => ({
+      selectedOption: undefined
+    }))
+  }
+
+  onAddOption = option => {
+    if (!option) {
+      return 'Enter valid value to add item'
+    } else if (this.state.options.indexOf(option) > -1) {
+      return 'This option already exists'
     }
 
-    this.onRemoveAll = this.onRemoveAll.bind(this)
-    this.onRemoveOne = this.onRemoveOne.bind(this)
-    this.onPick = this.onPick.bind(this)
-    this.onAddOption = this.onAddOption.bind(this)
+    this.setState(prevState => ({
+      options: prevState.options.concat(option)
+    }))
+  }
+
+  onPick = () => {
+    const randomNum = Math.floor(Math.random() * this.state.options.length)
+    const option = this.state.options[randomNum]
+    this.setState(() => ({
+      selectedOption: option
+    }))
+  }
+
+  onRemoveOne = option => {
+    this.setState(prevState => ({
+      options: prevState.options.filter(opt => opt !== option)
+    }))
+  }
+
+  onRemoveAll = () => {
+    this.setState(() => ({
+      options: []
+    }))
   }
 
   componentDidMount() {
@@ -44,42 +76,12 @@ class IndecisionApp extends React.Component {
     console.log('COMPONENT_WILL_UNMOUNT')
   }
 
-  onAddOption(option) {
-    if (!option) {
-      return 'Enter valid value to add item'
-    } else if (this.state.options.indexOf(option) > -1) {
-      return 'This option already exists'
-    }
-
-    this.setState(prevState => ({
-      options: prevState.options.concat(option)
-    }))
-  }
-
-  onPick() {
-    const randomNum = Math.floor(Math.random() * this.state.options.length)
-    const option = this.state.options[randomNum]
-    alert(option)
-  }
-
-  onRemoveOne(option) {
-    this.setState(prevState => ({
-      options: prevState.options.filter(opt => opt !== option)
-    }))
-  }
-
-  onRemoveAll() {
-    this.setState(() => ({
-      options: []
-    }))
-  }
-
   render() {
     const { options } = this.state
     const subtitle = 'Put your life in the hands of a computer'
 
     return (
-      <div>
+      <div className="container">
         <Header subtitle={subtitle} />
         <Action hasOptions={options.length > 0} onPick={this.onPick} />
         <Options
@@ -88,6 +90,10 @@ class IndecisionApp extends React.Component {
           onRemoveAll={this.onRemoveAll}
         />
         <AddOption onAddOption={this.onAddOption} />
+        <OptionModal
+          onSelectedOption={this.onSelectedOption}
+          selectedOption={this.state.selectedOption}
+        />
       </div>
     )
   }
